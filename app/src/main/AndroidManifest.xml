@@ -9,6 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Activitys.Activtys.AppointmentDetailActivity"></activity>
+        <activity android:name=".Activitys.Activtys.DoctorDetailActivity" />
         <activity android:name=".Activitys.Activtys.MainActivity" />
         <activity android:name=".Activitys.Activtys.SignUpInActivity">
             <intent-filter>

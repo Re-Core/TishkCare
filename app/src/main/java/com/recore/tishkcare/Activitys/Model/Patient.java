@@ -2,16 +2,25 @@ package com.recore.tishkcare.Activitys.Model;
 
 public class Patient {
 
-    private String email,password,name,phone;
+    private String email,password,name,phone,pateintId;
 
     public Patient() {
     }
 
-    public Patient(String email, String password, String name, String phone) {
+    public Patient(String email, String password, String name, String phone,String pateintId) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.phone = phone;
+        this.pateintId=pateintId;
+    }
+
+    public String getPateintId() {
+        return pateintId;
+    }
+
+    public void setPateintId(String pateintId) {
+        this.pateintId = pateintId;
     }
 
     public String getEmail() {
