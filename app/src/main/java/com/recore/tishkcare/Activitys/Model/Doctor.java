@@ -2,9 +2,35 @@ package com.recore.tishkcare.Activitys.Model;
 
 public class Doctor {
 
-    private String email,password,name,phone;
+    private String email,password,name,phone, specialty,startHour,endHour,location,gender,doctorImg,doctorId;
 
     public Doctor() {
+    }
+
+    public Doctor(String email, String password, String name, String phone, String specialty, String startHour, String endHour, String location, String gender, String doctorImg, String doctorId) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.phone = phone;
+        this.specialty = specialty;
+        this.startHour = startHour;
+        this.endHour = endHour;
+        this.location = location;
+        this.gender = gender;
+        this.doctorImg = doctorImg;
+        this.doctorId = doctorId;
+    }
+
+    public Doctor(String email, String password, String name, String phone, String specilty, String startHour, String endHour, String location, String gender) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.phone = phone;
+        this.specialty = specilty;
+        this.startHour = startHour;
+        this.endHour = endHour;
+        this.location = location;
+        this.gender=gender;
     }
 
     public Doctor(String email, String password, String name, String phone) {
@@ -44,5 +70,61 @@ public class Doctor {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getSpecialty() {
+        return specialty;
+    }
+
+    public void setSpecialty(String specialty) {
+        this.specialty = specialty;
+    }
+
+    public String getStartHour() {
+        return startHour;
+    }
+
+    public void setStartHour(String startHour) {
+        this.startHour = startHour;
+    }
+
+    public String getEndHour() {
+        return endHour;
+    }
+
+    public void setEndHour(String endHour) {
+        this.endHour = endHour;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getDoctorImg() {
+        return doctorImg;
+    }
+
+    public void setDoctorImg(String doctorImg) {
+        this.doctorImg = doctorImg;
+    }
+
+    public String getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
     }
 }

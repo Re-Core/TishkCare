@@ -1,6 +1,7 @@
 package com.recore.tishkcare.Activitys.Activtys;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -110,5 +111,7 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
+
+
 
 }

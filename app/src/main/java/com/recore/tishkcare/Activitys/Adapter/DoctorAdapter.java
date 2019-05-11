@@ -41,8 +41,8 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
 
         viewHolder.doctorName.setText(mDoctorList.get(i).getName());
         viewHolder.doctorMobile.setText(mDoctorList.get(i).getPhone());
-        viewHolder.doctorCity.setText(mDoctorList.get(i).getEmail());
-        viewHolder.doctorType.setText(mDoctorList.get(i).getPassword());
+        viewHolder.doctorCity.setText(mDoctorList.get(i).getLocation());
+        viewHolder.doctorType.setText(mDoctorList.get(i).getSpecialty());
 
 
     }
@@ -71,9 +71,21 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
 
                     int position = getAdapterPosition();
                     Intent i = new Intent(mContext, DoctorDetailActivity.class);
+
+                    i.putExtra("doctorId",mDoctorList.get(position).getDoctorId());
+                    i.putExtra("doctorImg",mDoctorList.get(position).getDoctorImg());
                     i.putExtra("name",mDoctorList.get(position).getName());
                     i.putExtra("mail",mDoctorList.get(position).getEmail());
                     i.putExtra("phone",mDoctorList.get(position).getPhone());
+                    i.putExtra("location",mDoctorList.get(position).getLocation());
+                    i.putExtra("specialty",mDoctorList.get(position).getSpecialty());
+                    i.putExtra("startHour",mDoctorList.get(position).getStartHour());
+                    i.putExtra("endHour",mDoctorList.get(position).getEndHour());
+                    i.putExtra("gender",mDoctorList.get(position).getGender());
+
+
+
+
                     mContext.startActivity(i);
 
                 }
