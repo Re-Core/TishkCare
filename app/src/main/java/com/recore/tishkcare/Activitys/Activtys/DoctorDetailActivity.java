@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -20,18 +23,24 @@ import com.google.firebase.database.ValueEventListener;
 import com.recore.tishkcare.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DoctorDetailActivity extends AppCompatActivity {
 
-    private FirebaseDatabase mFirebaseDatabase;
+    private FirebaseDatabase mFirebaseDatabase; // email -> _email
     private DatabaseReference mDatabaseReference;
     private FirebaseUser mUser;
     private FirebaseAuth mAuth;
 
 
-    private String docName,docPhone,docMail,docLocation,specilty,startHour,endHour,gender,doctorId;
+    private String docName,docPhone,docMail,docLocation,specilty,startHour,endHour,gender,doctorId,doctorImg;
+    private TextView txtDocName,txtDocPhone,txtDocSpecialty,txtLocation;
     private Button btnAppointment;
+    private CircleImageView doctorImgC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,21 +50,29 @@ public class DoctorDetailActivity extends AppCompatActivity {
         mFirebaseDatabase=FirebaseDatabase.getInstance();
         mDatabaseReference=mFirebaseDatabase.getReference("Appointments");
 
-
+        doctorImgC=(CircleImageView)findViewById(R.id.OimgUser);
+        txtDocName=(TextView)findViewById(R.id.OtxtUserName);
+        txtDocSpecialty=(TextView)findViewById(R.id.txtSpeciality);
+        txtLocation=(TextView)findViewById(R.id.txtLocation);
+        txtDocPhone=(TextView)findViewById(R.id.txtPhone);
 
         doctorId=getIntent().getStringExtra("doctorId");
-//        docName= getIntent().getStringExtra("name");
-//        docPhone= getIntent().getStringExtra("phone");
-//        docMail= getIntent().getStringExtra("mail");
-//
-//        specilty=getIntent().getStringExtra("specialty");
-//        docLocation= getIntent().getStringExtra("location");
-//        startHour= getIntent().getStringExtra("startHour");
-//        endHour= getIntent().getStringExtra("endHour");
-//        gender=getIntent().getStringExtra("gender");
+        doctorImg=getIntent().getStringExtra("doctorImg");
+
+
+        docName= getIntent().getStringExtra("name");
+        docPhone= getIntent().getStringExtra("phone");
+        docMail= getIntent().getStringExtra("mail");
+        specilty=getIntent().getStringExtra("specialty");
+        docLocation= getIntent().getStringExtra("location");
 
 
 
+        Glide.with(getApplicationContext()).load(doctorImg).into(doctorImgC);
+        txtDocName.setText(docName);
+        txtDocPhone.setText(docPhone);
+        txtDocSpecialty.setText(specilty);
+        txtLocation.setText(docLocation);
 
 
 
@@ -66,7 +83,7 @@ public class DoctorDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
+              addAppointment();
 
             }
         });
@@ -74,6 +91,106 @@ public class DoctorDetailActivity extends AppCompatActivity {
 
 
     }
+
+    private void addAppointment(){
+
+        String saveCurrentDate,saveCurrentTime;
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat =new SimpleDateFormat("MMM dd,yyyy");
+
+        saveCurrentDate=dateFormat.format(calendar.getTime());
+
+
+        SimpleDateFormat timeFormat =new SimpleDateFormat("HH,mm,ss a");
+        saveCurrentTime=dateFormat.format(calendar.getTime());
+
+        final DatabaseReference AppointmentsListRef = FirebaseDatabase.getInstance().getReference().child("Appointments");
+
+        final HashMap<String,Object>appointmentMap = new HashMap<>();
+
+        appointmentMap.put("doctorId",doctorId);
+        appointmentMap.put("doctorName",docName);
+        appointmentMap.put("patientName",FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+        appointmentMap.put("date",saveCurrentDate);
+        appointmentMap.put("time",saveCurrentTime);
+
+
+        AppointmentsListRef.child("Patient View").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child(FirebaseAuth.getInstance().getCurrentUser().getDisplayName()).updateChildren(appointmentMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    AppointmentsListRef.child("Doctor View").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getDisplayName()).updateChildren(appointmentMap)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()){
+                                        Toast.makeText(DoctorDetailActivity.this, "Added to cart", Toast.LENGTH_SHORT).show();
+                                        Intent i = new Intent(DoctorDetailActivity.this,MainActivity.class);
+                                        startActivity(i);
+                                        finish();
+                                    }
+                                }
+                            });
+                }
+            }
+        });
+
+    }
+
+//    private void addToCartList() {
+//
+//        String saveCurrentDate,saveCurrentTime;
+//        Calendar calendar = Calendar.getInstance();
+//        SimpleDateFormat dateFormat =new SimpleDateFormat("MMM dd,yyyy");
+//
+//        saveCurrentDate=dateFormat.format(calendar.getTime());
+//
+//
+//        SimpleDateFormat timeFormat =new SimpleDateFormat("HH,mm,ss a");
+//        saveCurrentTime=dateFormat.format(calendar.getTime());
+//
+//        final DatabaseReference cartListRef = FirebaseDatabase.getInstance().getReference().child("CartList");
+//
+//        final HashMap<String,Object>cartMap = new HashMap<>();
+//
+//        cartMap.put("pid",productId);
+//        cartMap.put("pname",nameProductDetail.getText().toString());
+//        cartMap.put("totalPrice",priceProductDetail.getText().toString());
+//        cartMap.put("quantity",quantityButton.getNumber());
+//        cartMap.put("date",saveCurrentDate);
+//        cartMap.put("time",saveCurrentTime);
+//        cartMap.put("discount",null);
+//
+//        cartListRef.child("User View").child(Prevalent.currentOnlineUser.getPhone()).
+//                child("Products").child(productId).updateChildren(cartMap)
+//                .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        if (task.isSuccessful()){
+//                            cartListRef.child("Admin View").child(Prevalent.currentOnlineUser.getPhone()).
+//                                    child("Products").child(productId).updateChildren(cartMap)
+//                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                        @Override
+//                                        public void onComplete(@NonNull Task<Void> task) {
+//                                            if (task.isSuccessful()){
+//                                                Toast.makeText(ProductDetailActivity.this, "Added to cart", Toast.LENGTH_SHORT).show();
+//
+//                                                Intent i = new Intent(ProductDetailActivity.this,HomeActivity.class);
+//                                                startActivity(i);
+//                                                finish();
+//                                            }
+//                                        }
+//                                    });
+//                        }
+//                    }
+//                });
+//
+//
+//
+//    }
+
 
     private void DoctorProfileDisplay(final CircleImageView profileImageView, final EditText Mail, final EditText mobile,
                                       final EditText edtDateOfbirth, final EditText education, final  EditText work) {

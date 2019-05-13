@@ -6,9 +6,13 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -96,6 +100,11 @@ public class SettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
+        Toolbar setting =(Toolbar)findViewById(R.id.setting_toolbar);
+        setSupportActionBar(setting);
+        ActionBar actionBar =getSupportActionBar();
+        //actionBar.setDisplayHomeAsUpEnabled(true);
 
         storageProfilePictureRef= FirebaseStorage.getInstance().getReference().child("Patients_Profile_picture");
 
@@ -211,6 +220,29 @@ public class SettingActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_setting,menu);
+
+        MenuItem signOut=menu.findItem(R.id.action_sign_out);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.action_sign_out:
+                FirebaseAuth.getInstance().signOut();
+                Intent loginActivity = new Intent(getApplicationContext(), SignUpInActivity.class);
+                startActivity(loginActivity);
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -251,7 +283,6 @@ public class SettingActivity extends AppCompatActivity {
         userMap.put("gender",gender);
         userMap.put("marriage",marriage);
         userMap.put("city",city);
-
         databaseReference.child(currentUserId).updateChildren(userMap);
 
         startActivity(new Intent(SettingActivity.this,MainActivity.class));
@@ -358,27 +389,36 @@ public class SettingActivity extends AppCompatActivity {
                     if (dataSnapshot.child("image").exists()){
 
                         String image = dataSnapshot.child("image").getValue().toString();
-                        String dateOfBirth = dataSnapshot.child("dateOfBirth").getValue().toString();
-                        String phone = dataSnapshot.child("phone").getValue().toString();
-                        String emailAddress = dataSnapshot.child("email").getValue().toString();
-
-                        String educationString = dataSnapshot.child("education").getValue().toString();
-                        String workString= dataSnapshot.child("email").getValue().toString();
-
-                        gender=dataSnapshot.child("gender").getValue().toString();
-                        marriage=dataSnapshot.child("marriage").getValue().toString();
-                        bloodGroup=dataSnapshot.child("bloodGroup").getValue().toString();
-                        city=dataSnapshot.child("city").getValue().toString();
 
                         Picasso.get().load(image).into(profileImageView);
-                        Mail.setText(emailAddress);
-                        mobile.setText(phone);
-                        edtDateOfbirth.setText(dateOfBirth);
+
+                    }if (dataSnapshot.child("education").exists()){
+                        String educationString = dataSnapshot.child("education").getValue().toString();
                         education.setText(educationString);
+                    }if (dataSnapshot.child("dateOfBirth").exists()){
+                        String dateOfBirth = dataSnapshot.child("dateOfBirth").getValue().toString();
+                        edtDateOfbirth.setText(dateOfBirth);
+                    } if (dataSnapshot.child("phone").exists()){
+                        String phone = dataSnapshot.child("phone").getValue().toString();
+                        mobile.setText(phone);
+                    }  if (dataSnapshot.child("work").exists()){
+                        String workString= dataSnapshot.child("work").getValue().toString();
                         work.setText(workString);
-
-
-
+                    }  if (dataSnapshot.child("email").exists()){
+                        String emailAddress = dataSnapshot.child("email").getValue().toString();
+                        Mail.setText(emailAddress);
+                    }  if (dataSnapshot.child("bloodGroup").exists()){
+                        String bloodG=dataSnapshot.child("bloodGroup").getValue().toString();
+                        //  BloodGroup.setText(bloodG);
+                    }  if (dataSnapshot.child("gender").exists()){
+                        String gender=dataSnapshot.child("gender").getValue().toString();
+                        //  Gender.setText(gender);
+                    }  if (dataSnapshot.child("speciality").exists()){
+                        String MarriageS=dataSnapshot.child("speciality").getValue().toString();
+                        //  Marriage.setText(MarriageS);
+                    }  if (dataSnapshot.child("city").exists()){
+                        String CityS=dataSnapshot.child("city").getValue().toString();
+                         //City.setText(CityS);
                     }
                 }
 
@@ -417,5 +457,7 @@ public class SettingActivity extends AppCompatActivity {
 
 
     }
+
+
 
 }

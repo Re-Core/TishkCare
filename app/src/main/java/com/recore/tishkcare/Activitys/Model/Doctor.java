@@ -2,7 +2,7 @@ package com.recore.tishkcare.Activitys.Model;
 
 public class Doctor {
 
-    private String email,password,name,phone, specialty,startHour,endHour,location,gender,doctorImg,doctorId;
+    private String email,password,name,phone, speciality,startHour,endHour,location,gender,doctorImg,doctorId;
 
     public Doctor() {
     }
@@ -12,7 +12,7 @@ public class Doctor {
         this.password = password;
         this.name = name;
         this.phone = phone;
-        this.specialty = specialty;
+        this.speciality = specialty;
         this.startHour = startHour;
         this.endHour = endHour;
         this.location = location;
@@ -26,7 +26,7 @@ public class Doctor {
         this.password = password;
         this.name = name;
         this.phone = phone;
-        this.specialty = specilty;
+        this.speciality = specilty;
         this.startHour = startHour;
         this.endHour = endHour;
         this.location = location;
@@ -72,12 +72,12 @@ public class Doctor {
         this.phone = phone;
     }
 
-    public String getSpecialty() {
-        return specialty;
+    public String getSpeciality() {
+        return speciality;
     }
 
-    public void setSpecialty(String specialty) {
-        this.specialty = specialty;
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality;
     }
 
     public String getStartHour() {

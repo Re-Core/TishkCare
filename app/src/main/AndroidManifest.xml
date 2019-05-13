@@ -12,10 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activitys.Activtys.SettingActivity"></activity>
+        <activity android:name=".Activitys.Activtys.SettingActivity"
+            android:label="Setting"></activity>
         <activity android:name=".Activitys.Activtys.AppointmentDetailActivity" />
         <activity android:name=".Activitys.Activtys.DoctorDetailActivity" />
-        <activity android:name=".Activitys.Activtys.MainActivity" />
+        <activity android:name=".Activitys.Activtys.MainActivity" >
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activitys.Activtys.MainActivity"/>
+        </activity>
         <activity android:name=".Activitys.Activtys.SignUpInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

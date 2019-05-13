@@ -8,10 +8,19 @@
     android:background="#fff"
     android:scrollbars="vertical">
 
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:background="@color/ripple_effect_background"
+            android:id="@+id/setting_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/settingImg"

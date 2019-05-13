@@ -46,7 +46,7 @@ public class AppointmentListFragment extends Fragment {
         View v =inflater.inflate(R.layout.fragment_appointment, container, false);
 
         mFirebaseDatabase=FirebaseDatabase.getInstance();
-        mDatabaseReference=mFirebaseDatabase.getReference("Appointments").child("doctor");
+        mDatabaseReference=mFirebaseDatabase.getReference("Appointments1");
 
         appointmentRecycler=(RecyclerView)v.findViewById(R.id.appointmentRv);
         appointmentRecycler.setLayoutManager(new LinearLayoutManager(getContext()));

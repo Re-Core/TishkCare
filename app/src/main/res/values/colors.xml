@@ -14,6 +14,11 @@
     <color name="basePressColor">#FAFAFA</color>
     <color name="ballReleaseColor">#9E9E9E</color>
 
+    <color name="cardRootColor">#ffffff</color>
+    <color name="cardNameConatinerColor">#0E5AA5</color>
+    <color name="cardSpecialityConatinerColor">#00AEE0</color>
+    <color name="cardAddressConatinerColor">#1DA2AB</color>
+    <color name="cardSocialConatinerColor">#14B2B3</color>
 
 
 </resources>
